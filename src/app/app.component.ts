@@ -20,7 +20,8 @@ export class AppComponent implements OnInit {
   title = 'todo-ui';
 
   // The URL of our Spring Boot backend API
-  private apiUrl = 'http://localhost:8080/api/todos';
+  private baseUrl = 'http://todo-api-production-73f3.up.railway.app';
+  private apiUrl = `${this.baseUrl}/api/todos`;
 
   public todos: Todo[] = [];
   public newTodoTitle: string = '';
