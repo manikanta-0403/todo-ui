@@ -2,6 +2,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Interface to define the shape of our Todo object
 export interface Todo {
@@ -26,8 +27,7 @@ export class AppComponent implements OnInit {
 
   public todos: Todo[] = [];
   public newTodoTitle: string = '';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.getTodos();
@@ -47,6 +47,11 @@ export class AppComponent implements OnInit {
     this.http.post<Todo>(this.apiUrl, newTodo).subscribe((createdTodo) => {
       this.todos.push(createdTodo);
       this.newTodoTitle = ''; // Clear the input field
+    }, (error) => {
+      console.error('Error adding todo:', error);
+      this.snackBar.open(`Failed to add todo - ${error.message}`, 'Close', {
+        duration: 3000,
+      });
     });
   }
 }
